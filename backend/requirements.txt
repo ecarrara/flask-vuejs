@@ -1,0 +1,8 @@
+coverage>=4.3.4
+Flask>=0.12
+Flask-Cors>=3.0.2
+Flask-Script>=2.0.5
+pytest>=3.0.7
+pytest-cov>=2.4.0
+pytest-flask>=0.10.0
+raven>=6.0.0
