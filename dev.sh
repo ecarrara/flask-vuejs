@@ -21,6 +21,14 @@ check_py_venv() {
     fi
 }
 
+check_js_env() {
+    NODE_PATH=$(which node)
+    if [[ "$NODE_PATH" != "$NVM_DIR/versions/node/v7.4.0/bin/node" ]]; then
+        echo -e "Please install node and nvm first"
+        echo -e "Run:"
+        echo -e "  $ $0 jsenv"
+    fi
+}
 
 case "$command" in
   "pyenv")
@@ -61,10 +69,49 @@ case "$command" in
         ENVIRONMENT=development ./manage.py runserver --threaded
         cd - > /dev/null
   ;;
+  "jsenv")
+        cd frontend
+
+        if [[ -z ${NVM_DIR+x} ]]; then
+            echo -e "Installing NVM..."
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+
+            source $HOME/.bashrc
+        fi
+
+        . $NVM_DIR/nvm.sh
+
+        nvm install $NODE_VERSION
+        nvm use $NODE_VERSION
+
+        npm install
+
+        echo -e ""
+        echo -e "Run:"
+        echo -e "  $ nvm use v7.4.0"
+        cd - > /dev/null
+  ;;
+  "jstest")
+        check_js_env
+
+        cd frontend
+        npm run test
+        cd - > /dev/null
+  ;;
+  "jsdev")
+        check_js_env
+
+        cd frontend
+        npm run dev
+        cd - > /dev/null
+  ;;
   *)
       echo "$0 <subcomando>"
       echo -e "  pyenv \t Prepara o ambiente de desenvolvimento Python"
       echo -e "  pytest \t Executa os testes do backend"
       echo -e "  pydev \t Executa servidor de desenvolvimento do backend"
+      echo -e "  jsenv \t Prepara o ambiente de desenvolvimento JS"
+      echo -e "  jstest \t Executa os testes do frontend"
+      echo -e "  jsdev \t Executa servidor de desenvolvimento do frontend"
    ;;
 esac
