@@ -22,6 +22,10 @@ check_py_venv() {
 }
 
 check_js_env() {
+    if [[ "$NVM_DIR" == "" ]]; then
+        curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+    fi
+
     NODE_PATH=$(which node)
     if [[ "$NODE_PATH" != "$NVM_DIR/versions/node/v7.4.0/bin/node" ]]; then
         echo -e "Please install node and nvm first"
