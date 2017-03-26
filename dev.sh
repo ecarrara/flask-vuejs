@@ -9,6 +9,7 @@ PYTHON_VERSION=python2
 NODE_VERSION=v7.4.0
 
 command=$1
+command_args=${@:2}
 
 . $(which virtualenvwrapper_lazy.sh)
 
@@ -104,9 +105,10 @@ case "$command" in
   ;;
   "jsdev")
         check_js_env
+        [[ "$command_args" == "mock" ]] && mock="true" || mock="false"
 
         cd frontend
-        npm run dev
+        MOCK=$mock npm run dev
         cd - > /dev/null
   ;;
   *)

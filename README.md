@@ -17,6 +17,6 @@ Setup and run frontend:
 
 ```shellscript
 ./dev.sh jsenv    # prepare javascript development environment
-./dev.sh jsdev    # run webpack dev server
+./dev.sh jsdev mock   # run webpack dev server
 ./dev.sh jstest   # run frontend tests
 ```
